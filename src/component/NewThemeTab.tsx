@@ -12,6 +12,7 @@ import getTokens from '../utils/getTokens';
 import { useColorStore } from '../container/colorStore';
 import useStore from '../Test&Example/zustandExample';
 import { Buffer } from 'buffer';
+import { ThemeData } from '../types/types';
 
 function NewThemeTab() {
     
@@ -19,7 +20,7 @@ function NewThemeTab() {
     const [selectedRectangle, setSelectedRectangle] = useState<number | null>(null);
     const [themes, setThemes] = useState<any[]>([]);
     const setColorStore = useColorStore((state) => state.setMainBackgroundColor);
-    const [themesData, setThemesData] = useState<any[]>([]);
+    const [themesData, setThemesData] = useState<ThemeData[]>([]);
     const effectRan = useRef(false);
 
     useEffect(() => {
