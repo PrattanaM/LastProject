@@ -1,0 +1,221 @@
+.paperContainer {
+    height: 760px;
+    padding: 20px;
+    box-shadow: none;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+}
+
+.backgroundColor {
+    height: 740px;
+    width: 510px;
+}
+
+.header {
+    height: 85px;
+    width: 510px;
+    display: flex;
+    flex-direction: row;
+}
+
+.timeBox {
+    height: 85px;
+    width: 170px;
+}
+
+.timeStyle {
+    display: flex;
+    height: 45px;
+    width: 125px;
+    margin-left: 13px;
+    margin-top: 10px;
+    position: absolute;
+}
+
+.popOverTextOnMainBackground {
+    height: 350px;
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+}
+
+.popOverMarginStyle {
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.popOverBetweenTag {
+    margin-bottom: 10px;
+}
+
+.logoBox {
+    height: 85px;
+    width: 170px;
+}
+
+.popOverLogo {
+    height: 410px;
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+}
+
+.changeLanguageBox {
+    height: 85px;
+    width: 170px;
+    display: flex;
+}
+
+.popOverChangeLanguage {
+    height: 460px;
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+}
+
+.body {
+    width: 510px;
+    height: 655px;
+}
+
+.backgroundStyle {
+    position: absolute;
+    width: 510px;
+    height: 655px;
+}
+
+.popOverBackground {
+    height: 380px;
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+}
+
+.formControlBox {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.verifyPasscodeBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.verifyPasscodeTextStyle {
+    font-size: 24px;
+}
+
+.selectFloorBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.selectFloorTextStyle {
+    font-size: 18px;
+}
+
+.formControlStyle {
+    min-width: 14rem;
+}
+
+.selectedStyle, .selectedUser {
+    text-align: center;
+    width: 14rem;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.selectedFloor {
+    height: 2rem;
+}
+
+.selectedResidence{
+    height: 2rem;
+}
+
+.selectedUser {
+    height: 80px;
+}
+
+.selectedResidenceTextStyle {
+    font-size: 18px;
+}
+
+.selectResidentandUserBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.selectUserTextStyle {
+    font-size: 18px;
+}
+
+.popOverSelectFRU {
+    height: 520px;
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+}
+
+.keyNumberandBottomBox {
+    width: 510px;
+    height: 305px;
+    text-align: center;
+}
+
+.bottomBox {
+    width: 510px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.forgetButtonBox {
+    width: 180px;
+    height: 70px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.forgetButtonBoxStyle {
+    width: 180px;
+    height: 50px;
+}
+
+.HomeIconBox {
+    width: 63px;
+    height: 70px;
+}
+
+.HomeIconButton {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.homeIconStyle {
+    font-size: 30px;
+}
+
+.changePasscodeButtonBoxStyle {
+    width: 180px;
+    height: 70px;
+}
+
+.popOverChangePasscodeandForgetButton {
+    height: 460px;
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+}
