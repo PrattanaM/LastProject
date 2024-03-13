@@ -350,7 +350,9 @@ const handleClick = (data: any) => {
         >
           <div
             className="header"
-            color={themes.length > 0 ? themes[0].mainBackground : { r: 0, g: 0, b: 0, a: 1 }}
+            style={{
+              backgroundColor: `rgba(${store.mainBackgroundColor.r}, ${store.mainBackgroundColor.g}, ${store.mainBackgroundColor.b}, ${store.mainBackgroundColor.a})`,
+            }}
             onChange={(color) => {
               console.log("mainBackground:", color); 
               const updatedThemes = [...themes];

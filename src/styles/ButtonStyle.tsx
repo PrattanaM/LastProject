@@ -96,7 +96,7 @@ export const styleDateTextButton: ButtonStyle = {
     background: "null",
     textTransform: "none",
     height: "45px",
-    width: "126px",
+    width: "132px",
     marginTop: "10px",
     marginLeft: "10px",
     borderRadius: "0px",

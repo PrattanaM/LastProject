@@ -6,8 +6,8 @@ export default async function getTokens() {
     }
     try {
         const response = await axios.post('https://api-dev2.keyspace.tech/auth/accessToken', {
-            username: "mangkornsri.prattana@gmail.com",
-            password: "Mook09988765#",
+            username: "pprsk@hotmail.com",
+            password: "Pp6397931!",
             grant_type: "password",
         });
         const token = response.data.access_token;
