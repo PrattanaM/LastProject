@@ -3,118 +3,163 @@ import { RGBColor } from 'react-color';
 import { hexToRgb } from './utils';
 
 interface ColorStore {
-    mainBackgroundColor: RGBColor;
+    mainBackground: RGBColor;
     background: RGBColor;
-    bottomBackgroundColor: RGBColor;
+    bottomBackground: RGBColor;
 
-    inComponent: RGBColor;
-    textOnMainBackground: RGBColor;
-    textOnBackground: RGBColor;
-
-    themeColorEnd: RGBColor;
-    themeColorStart: RGBColor;
+    textComponent: RGBColor;
+    textMainBackground: RGBColor;
+    textBackground: RGBColor;
     textButton: RGBColor;
 
-    idelColorEnd: RGBColor;
-    idelColorStart: RGBColor;
-    inUseColorStart: RGBColor;
-    inUseColorEnd: RGBColor;
-    textInLangBtInUse: RGBColor;
-    textInLangBtIdel: RGBColor;
+    primaryButtonStart: RGBColor;
+    primaryButtonEnd: RGBColor;
 
-    spinnerColor: RGBColor;
-    spinnerPopupColor: RGBColor;
+    secondaryButtonStart: RGBColor;
+    secondaryButtonEnd: RGBColor;
 
-    btPinColorEnd: RGBColor;
-    btPinColorStart: RGBColor;
-    pinInputColor: RGBColor;
+    activeLanguageStart: RGBColor;
+    activeLanguageEnd: RGBColor;
+    activeLanguageText: RGBColor;
 
-    icLockerTint: RGBColor;
+    inactiveLanguageStart: RGBColor;
+    inactiveLanguageEnd: RGBColor;
+    inactiveLanguageText: RGBColor;
 
-    setMainBackgroundColor: (color: RGBColor) => void;
+    spinnerColorR: RGBColor;
+    spinnerPopupColorR: RGBColor;
+
+    buttonPinCodeStart: RGBColor;
+    buttonPinCodeEnd: RGBColor;
+
+    textPinCode: RGBColor;
+
+    setMainBackground: (color: RGBColor) => void;
     setBackground: (color: RGBColor) => void;
-    setBottomBackgroundColor: (color: RGBColor) => void;
+    setBottomBackground: (color: RGBColor) => void;
 
-    setInComponent: (color: RGBColor) => void;
-    setTextOnMainBackground:  (color: RGBColor) => void;
-    setTextOnBackground: (color: RGBColor) => void;
-
-    setThemeColorEnd: (color: RGBColor) => void;
-    setThemeColorStart: (color: RGBColor) => void;
+    setTextComponent: (color: RGBColor) => void;
+    setTextMainBackground: (color: RGBColor) => void;
+    setTextBackground: (color: RGBColor) => void;
     setTextButton: (color: RGBColor) => void;
 
-    setIdelColorEnd: (color: RGBColor) => void;
-    setIdelColorStart: (color: RGBColor) => void;
-    setInUseColorStart: (color: RGBColor) => void;
-    setInUseColorEnd: (color: RGBColor) => void;
-    setTextInLangBtInUse: (color: RGBColor) => void;
-    setTextInLangBtIdel: (color: RGBColor) => void;
+    setPrimaryButtonStart: (color: RGBColor) => void;
+    setPrimaryButtonEnd: (color: RGBColor) => void;
 
-    setSpinnerColor: (color: RGBColor) => void;
-    setSpinnerPopupColor: (color: RGBColor) => void;
+    setSecondaryButtonStart: (color: RGBColor) => void;
+    setSecondaryButtonEnd: (color: RGBColor) => void;
 
-    setBtPinColorEnd: (color: RGBColor) => void;
-    setBtPinColorStart: (color: RGBColor) => void;
-    setPinInputColor: (color: RGBColor) => void;
+    setActiveLanguageStart: (color: RGBColor) => void;
+    setActiveLanguageEnd: (color: RGBColor) => void;
+    setActiveLanguageText: (color: RGBColor) => void;
 
-    setIcLockerTint: (color: RGBColor) => void;
+    setInactiveLanguageStart: (color: RGBColor) => void;
+    setInactiveLanguageEnd: (color: RGBColor) => void;
+    setInactiveLanguageText: (color: RGBColor) => void;
+
+    setSpinnerColorR: (color: RGBColor) => void;
+    setSpinnerPopupColorR: (color: RGBColor) => void;
+
+    setButtonPinCodeStart: (color: RGBColor) => void;
+    setButtonPinCodeEnd: (color: RGBColor) => void;
+
+    setTextPinCode: (color: RGBColor) => void;
 }
 
 export const useColorStore = create<ColorStore>((set) => ({
-    mainBackgroundColor: hexToRgb('#1A1A1D'),
-    background: hexToRgb('#27455E'),
-    bottomBackgroundColor: hexToRgb('#87613F'),
+    mainBackground: hexToRgb(''),
+    background: hexToRgb(''),
+    bottomBackground: hexToRgb(''),
 
-    inComponent: hexToRgb('#FFFFFF'),
-    textOnMainBackground: hexToRgb('#00FFFF'),
-    textOnBackground: hexToRgb('#FFF000'),
+    textComponent: hexToRgb(''),
+    textMainBackground: hexToRgb(''),
+    textBackground: hexToRgb(''),
+    textButton: hexToRgb(''),
 
-    themeColorEnd: hexToRgb('#FFB258'),
-    themeColorStart: hexToRgb('#3105AB'),
-    textButton: hexToRgb('#FFFFFF'),
+    primaryButtonStart: hexToRgb(''),
+    primaryButtonEnd: hexToRgb(''),
 
-    idelColorEnd: hexToRgb('#808080'),
-    idelColorStart: hexToRgb('#808080'),
-    inUseColorStart: hexToRgb('#45A735'),
-    inUseColorEnd: hexToRgb('#00FCCC'),
-    textInLangBtInUse: hexToRgb('#FFFFFF'),
-    textInLangBtIdel: hexToRgb('#9A999B'),
+    secondaryButtonStart: hexToRgb(''),
+    secondaryButtonEnd: hexToRgb(''),
 
-    spinnerColor: hexToRgb('#FFCCCC'),
-    spinnerPopupColor: hexToRgb('#999DDD'),
+    activeLanguageStart: hexToRgb(''),
+    activeLanguageEnd: hexToRgb(''),
+    activeLanguageText: hexToRgb(''),
 
-    btPinColorEnd: hexToRgb('#404040'),
-    btPinColorStart: hexToRgb('#0D0D0D'),
-    pinInputColor: hexToRgb('#1E1E20'),
+    inactiveLanguageStart: hexToRgb(''),
+    inactiveLanguageEnd: hexToRgb(''),
+    inactiveLanguageText: hexToRgb(''),
 
-    icLockerTint: hexToRgb('#3C3B43'),
+    spinnerColorR: hexToRgb(''),
+    spinnerPopupColorR: hexToRgb(''),
 
+    buttonPinCodeStart: hexToRgb(''),
+    buttonPinCodeEnd: hexToRgb(''),
 
-    setMainBackgroundColor: (color) => set({ mainBackgroundColor: color }),
+    textPinCode: hexToRgb(''),
+
+    setMainBackground: (color) => set({ mainBackground: color }),
     setBackground: (color) => set({ background: color }),
-    setBottomBackgroundColor: (color) => set({ bottomBackgroundColor: color }),
+    setBottomBackground: (color) => set({ bottomBackground: color }),
 
-    setInComponent: (color) => set({ inComponent: color }),
-    setTextOnMainBackground:  (color) => set({ textOnMainBackground : color }),
-    setTextOnBackground: (color) => set({ textOnBackground: color }),
-
-    setThemeColorEnd: (color) => set({ themeColorEnd: color }),
-    setThemeColorStart: (color) => set({ themeColorStart: color }),
+    setTextComponent: (color) => set({ textComponent: color }),
+    setTextMainBackground: (color) => set({ textMainBackground: color }),
+    setTextBackground: (color) => set({ textBackground: color }),
     setTextButton: (color) => set({ textButton: color }),
 
-    setIdelColorEnd: (color) => set({ idelColorEnd: color }),
-    setIdelColorStart: (color) => set({ idelColorStart: color }),
-    setInUseColorStart: (color) => set({ inUseColorStart: color }),
-    setInUseColorEnd: (color) => set({ inUseColorEnd: color }),
-    setTextInLangBtInUse: (color) => set({ textInLangBtInUse: color }),
-    setTextInLangBtIdel: (color) => set({ textInLangBtIdel: color }),
+    setPrimaryButtonStart: (color) => set({ primaryButtonStart: color }),
+    setPrimaryButtonEnd: (color) => set({ primaryButtonEnd: color }),
 
-    setSpinnerColor: (color) => set({ spinnerColor: color }),
-    setSpinnerPopupColor: (color) => set({ spinnerPopupColor: color }),
+    setSecondaryButtonStart: (color) => set({ secondaryButtonStart: color }),
+    setSecondaryButtonEnd: (color) => set({ secondaryButtonEnd: color }),
 
-    setBtPinColorEnd: (color) => set({ btPinColorEnd: color }),
-    setBtPinColorStart: (color) => set({ btPinColorStart: color }),
-    setPinInputColor: (color) => set({ pinInputColor: color }),
+    setActiveLanguageStart: (color) => set({ activeLanguageStart: color }),
+    setActiveLanguageEnd: (color) => set({ activeLanguageEnd: color }),
+    setActiveLanguageText: (color) => set({ activeLanguageText: color }),
 
-    setIcLockerTint: (color) => set({ icLockerTint: color }),
+    setInactiveLanguageStart: (color) => set({ inactiveLanguageStart: color }),
+    setInactiveLanguageEnd: (color) => set({ inactiveLanguageEnd: color }),
+    setInactiveLanguageText: (color) => set({ inactiveLanguageText: color }),
+
+    setSpinnerColorR: (color) => set({ spinnerColorR: color }),
+    setSpinnerPopupColorR: (color) => set({ spinnerPopupColorR: color }),
+
+    setButtonPinCodeStart: (color) => set({ buttonPinCodeStart: color }),
+    setButtonPinCodeEnd: (color) => set({ buttonPinCodeEnd: color }),
+
+    setTextPinCode: (color) => set({ textPinCode: color }),
+
+    updateColors: async () => {
+        try {
+            const response = await fetch('https://api-dev2.keyspace.tech/themes?type=locker-controller');
+            const data = await response.json();
+            set((state) => ({
+                ...state,
+                mainBackgroundColor: hexToRgb(data.mainBackgroundColor),
+                background: hexToRgb(data.background),
+                bottomBackgroundColor: hexToRgb(data.bottomBackgroundColor),
+                textComponent: hexToRgb(data.textComponent),
+                textMainBackground: hexToRgb(data.textMainBackground),
+                textBackground: hexToRgb(data.textBackground),
+                textButton: hexToRgb(data.textButton),
+                primaryButtonStart: hexToRgb(data.primaryButtonStart),
+                primaryButtonEnd: hexToRgb(data.primaryButtonEnd),
+                secondaryButtonStart: hexToRgb(data.secondaryButtonStart),
+                secondaryButtonEnd: hexToRgb(data.secondaryButtonEnd),
+                activeLanguageStart: hexToRgb(data.activeLanguageStart),
+                activeLanguageEnd: hexToRgb(data.activeLanguageEnd),
+                activeLanguageText: hexToRgb(data.activeLanguageText),
+                inactiveLanguageStart: hexToRgb(data.inactiveLanguageStart),
+                inactiveLanguageEnd: hexToRgb(data.inactiveLanguageEnd),
+                inactiveLanguageText: hexToRgb(data.inactiveLanguageText),
+                spinnerColor: hexToRgb(data.spinnerColor),
+                spinnerPopupColor: hexToRgb(data.spinnerPopupColor),
+                buttonPinCodeStart: hexToRgb(data.buttonPinCodeStart),
+                buttonPinCodeEnd: hexToRgb(data.buttonPinCodeEnd),
+                textPinCode: hexToRgb(data.textPinCode),
+            }));
+        } catch (error) {
+            console.error('Error updating colors:', error);
+        }
+    },
 }));

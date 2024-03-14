@@ -1,53 +1,60 @@
-// import { ThemeData } from './types'
-
 export interface ThemeData {
     brandId: string;
     createdAt: string;
     payLoad: { 
-        LockerController: Record<string, unknown>;
+        LockerController: LockerControllerData;
     };
     projectId: string;
-    title: string;
+    title: string ;
     type: string;
     updatedAt: string;
-    _id: string;
+    _id: string ;
 }
 
 export interface LockerControllerData {
     backgroundGroup: {
-        mainBackground: string;
-        background: string;
-        bottomBackground: string;
-    };
-    background: string;
-    bottomBackground : string;
-    mainBackground: string;
-    button: {
-        primaryButton: {
-            primaryButtonStart: string;
-            primaryButtonEnd: string;
-        };
-    };
-    primaryButton: {
-        primaryButtonStart: string;
-        primaryButtonEnd: string;
-    };
-    secondaryButton: {
-        secondaryButtonStart: string;
-        secondaryButtonEnd: string;
-    };
-    buttonPinCode: {
-        buttonPinCodeStart: string;
-    };
-    spinner: {
-        spinnerColor: string;
-        spinnerPopupColor: string;
+        header: string;
+        body: string;
+        footer: string;
     };
     text: {
-        textComponent: string;
-        textMainBackground: string;
-        textBackground: string;
+        header: string;
+        footer: string;
+        component: string;
+        button: string;
     };
+    button: {
+        primaryButton: {
+            start: string;
+            end: string;
+        };
+        secondaryButton: {
+            start: string;
+            end: string;
+        };
+    };
+    language: {
+        activeLanguage: {
+            start: string;
+            end: string;
+            text: string;
+        };
+        inactiveLanguage: {
+            start: string;
+            end: string;
+            text: string;
+        }
+    }
+    spinner: {
+        color: string;
+        popupColor: string;
+    };
+    
+    buttonPinCode: {
+        start: string;
+        end: string;
+    };
+
     textPinCode: string;
 }
 
@@ -63,3 +70,6 @@ export interface language {
     };
 
 }
+export interface ColorPickerProps {
+    themesData: ThemeData;
+  }

@@ -5,155 +5,146 @@ import CurrentDate from "../container/DayTime";
 import ImageHandler from "../container/ImageHandler";
 import KeyNumber from "../container/KeyNumber";
 import "../styles/ColorPickerStyle.css";
-import {
-  ButtonStyle,
-  styleMainBackgroundColorButton,
-  styleBackgroundColorButton,
-  styleForgetButton,
-  styleTHButton,
-  styleENButton,
-  styleDateTextButton,
-  styleFormControlBox,
-  styleHomeIconButton,
-} from "../styles/ButtonStyle";
+import { ButtonStyle, styleMainBackgroundColorButton, styleBackgroundColorButton, styleForgetButton, styleTHButton, styleENButton, styleDateTextButton, styleFormControlBox, styleHomeIconButton, } from "../styles/ButtonStyle";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Paper, Button, FormControl, MenuItem, Popover } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import axios from "axios";
 import getTokens from '../utils/getTokens';
-
-interface ThemeData {
-  _id: string;
-  brandId: string;
-  projectId: string;
-  type: string;
-  title: string;
-  payLoad: {
-    LockerController: {
-      backgroundGroup: {
-        footer: string;
-        header: string;
-      };
-      text: {
-        button: string;
-        component: string;
-        header: string;
-      };
-      button: {
-        primaryButton: {
-          end: string;
-        };
-        secondaryButton: {
-          start: string;
-          end: string;
-        };
-      };
-      language: {
-        inactiveLanguage: {
-          text: string;
-          start: string;
-        };
-        activeLanguage: {
-          start: string;
-          text: string;
-        };
-      };
-      spinner: {
-        color: string;
-        popupColor: string;
-      };
-      buttonPinCode: {
-        start: string;
-        end: string;
-      };
-      textPinCode: string;
-    };
-  };
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface ColorPickerProps {
-  themesData: ThemeData[];
-}
-
+import { ColorPickerProps } from "../types/types";
+import { ThemeData } from '../types/types';
+import { hexToRgb } from "../container/utils";
+import { RGBColor } from "react-color";
 
 const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
-  const store = useColorStore((state) => ({
-    mainBackgroundColor: state.mainBackgroundColor,
-    background: state.background,
-    inComponent: state.inComponent,
-    textOnMainBackground: state.textOnMainBackground,
-    textOnBackground: state.textOnBackground,
-    themeColorEnd: state.themeColorEnd,
-    themeColorStart: state.themeColorStart,
-    textButton: state.textButton,
-    ideColorEnd: state.idelColorEnd,
-    idelColorStart: state.idelColorStart,
-    inUseColorStart: state.inUseColorStart,
-    inUseColorEnd: state.inUseColorEnd,
-    textInLangBtInUse: state.textInLangBtInUse,
-    textInLangBtIdel: state.textInLangBtIdel,
-    spinnerColor: state.spinnerColor,
-    spinnerPopupColor: state.spinnerPopupColor,
 
-    setMainBackgroundColor: state.setMainBackgroundColor,
+  const [themeDataRGBA, setThemeDataRGBA] = useState({
+    mainBackground: hexToRgb(themesData.payLoad.LockerController.backgroundGroup.header),
+    backgroundD: hexToRgb(themesData.payLoad.LockerController.backgroundGroup.body),
+    bottomBackground: hexToRgb(themesData.payLoad.LockerController.backgroundGroup.footer),
+
+    textComponent: hexToRgb(themesData.payLoad.LockerController.text.component),
+    textMainBackground: hexToRgb(themesData.payLoad.LockerController.text.header),
+    textBackground: hexToRgb(themesData.payLoad.LockerController.text.footer),
+    textButton: hexToRgb(themesData.payLoad.LockerController.text.button),
+
+    primaryButtonStart: hexToRgb(themesData.payLoad.LockerController.button.primaryButton.start),
+    primaryButtonEnd: hexToRgb(themesData.payLoad.LockerController.button.primaryButton.end),
+
+    secondaryButtonStart: hexToRgb(themesData.payLoad.LockerController.button.secondaryButton.start),
+    secondaryButtonEnd: hexToRgb(themesData.payLoad.LockerController.button.secondaryButton.end),
+
+    activeLanguageStart: hexToRgb(themesData.payLoad.LockerController.language.activeLanguage.start),
+    activeLanguageEnd: hexToRgb(themesData.payLoad.LockerController.language.activeLanguage.end),
+    activeLanguageText: hexToRgb(themesData.payLoad.LockerController.language.activeLanguage.text),
+
+    inactiveLanguageStart: hexToRgb(themesData.payLoad.LockerController.language.inactiveLanguage.start),
+    inactiveLanguageEnd: hexToRgb(themesData.payLoad.LockerController.language.inactiveLanguage.end),
+    inactiveLanguageText: hexToRgb(themesData.payLoad.LockerController.language.inactiveLanguage.text),
+
+    spinnerColorR: hexToRgb(themesData.payLoad.LockerController.spinner.color),
+    spinnerPopupColorR: hexToRgb(themesData.payLoad.LockerController.spinner.popupColor),
+    buttonPinCodeStart: hexToRgb(themesData.payLoad.LockerController.buttonPinCode.start),
+    buttonPinCodeEnd: hexToRgb(themesData.payLoad.LockerController.buttonPinCode.end),
+    textPinCode: hexToRgb(themesData.payLoad.LockerController.textPinCode),
+  });
+
+  const store = useColorStore((state) => ({
+    mainBackground: state.mainBackground,
+    background: state.background,
+    bottomBackground: state.bottomBackground,
+    textComponent: state.textComponent,
+    textMainBackground: state.textMainBackground,
+    textBackground: state.textBackground,
+    textButton: state.textButton,
+    primaryButtonStart: state.primaryButtonStart,
+    primaryButtonEnd: state.primaryButtonEnd,
+    secondaryButtonStart: state.secondaryButtonStart,
+    secondaryButtonEnd: state.secondaryButtonEnd,
+    activeLanguageStart: state.activeLanguageStart,
+    activeLanguageEnd: state.activeLanguageEnd,
+    activeLanguageText: state.activeLanguageText,
+    inactiveLanguageStart: state.inactiveLanguageStart,
+    inactiveLanguageEnd: state.inactiveLanguageEnd,
+    inactiveLanguageText: state.inactiveLanguageText,
+    spinnerColorR: state.spinnerColorR,
+    spinnerPopupColorR: state.spinnerPopupColorR,
+    buttonPinCodeStart: state.buttonPinCodeStart,
+    buttonPinCodeEnd: state.buttonPinCodeEnd,
+    textPinCode: state.textPinCode,
+
+    setMainBackground: state.setMainBackground,
     setBackground: state.setBackground,
-    setInComponent: state.setInComponent,
-    setTextOnMainBackground: state.setTextOnMainBackground,
-    setTextOnBackground: state.setTextOnBackground,
-    setThemeColorEnd: state.setThemeColorEnd,
-    setThemeColorStart: state.setThemeColorStart,
+    setBottomBackground: state.setBottomBackground,
+
+    setTextComponent: state.setTextComponent,
+    setTextMainBackground: state.setTextMainBackground,
+    setTextBackground: state.setTextBackground,
     setTextButton: state.setTextButton,
-    setIdeColorEnd: state.setIdelColorEnd,
-    setIdelColorStart: state.setIdelColorStart,
-    setInUseColorStart: state.setInUseColorStart,
-    setInUseColorEnd: state.setInUseColorEnd,
-    setTextInLangBtInUse: state.setTextInLangBtInUse,
-    setTextInLangBtIdel: state.setTextInLangBtIdel,
-    setSpinnerColor: state.setSpinnerColor,
-    setSpinnerPopupColor: state.setSpinnerPopupColor,
+
+    setPrimaryButtonStart: state.setPrimaryButtonStart,
+    setPrimaryButtonEnd: state.setPrimaryButtonEnd,
+
+    setSecondaryButtonStart: state.setSecondaryButtonStart,
+    setSecondaryButtonEnd: state.setSecondaryButtonEnd,
+
+    setActiveLanguageStart: state.setActiveLanguageStart,
+    setActiveLanguageEnd: state.setActiveLanguageEnd,
+    setActiveLanguageText: state.setActiveLanguageText,
+
+    setInactiveLanguageStart: state.setInactiveLanguageStart,
+    setInactiveLanguageEnd: state.setInactiveLanguageEnd,
+    setInactiveLanguageText: state.setInactiveLanguageText,
+
+    setSpinnerColorR: state.setSpinnerColorR,
+    setSpinnerPopupColorR: state.setSpinnerPopupColorR,
+
+    setButtonPinCodeStart: state.setButtonPinCodeStart,
+    setButtonPinCodeEnd: state.setButtonPinCodeEnd,
+
+    setTextPinCode: state.setTextPinCode,
   }));
+
+  useEffect(() => {
+    store.setMainBackground(themeDataRGBA.mainBackground);
+    store.setBackground(themeDataRGBA.backgroundD);
+    store.setBottomBackground(themeDataRGBA.bottomBackground);
+    store.setTextComponent(themeDataRGBA.textComponent);
+    store.setTextMainBackground(themeDataRGBA.textMainBackground);
+    store.setTextBackground(themeDataRGBA.textBackground);
+    store.setTextButton(themeDataRGBA.textButton);
+    store.setPrimaryButtonStart(themeDataRGBA.primaryButtonStart);
+    store.setPrimaryButtonEnd(themeDataRGBA.primaryButtonEnd);
+    store.setSecondaryButtonStart(themeDataRGBA.secondaryButtonStart);
+    store.setSecondaryButtonEnd(themeDataRGBA.secondaryButtonEnd);
+    store.setActiveLanguageStart(themeDataRGBA.activeLanguageStart);
+    store.setActiveLanguageEnd(themeDataRGBA.activeLanguageEnd);
+    store.setActiveLanguageText(themeDataRGBA.activeLanguageText);
+    store.setInactiveLanguageStart(themeDataRGBA.inactiveLanguageStart);
+    store.setInactiveLanguageEnd(themeDataRGBA.inactiveLanguageEnd);
+    store.setInactiveLanguageText(themeDataRGBA.inactiveLanguageText);
+    store.setSpinnerColorR(themeDataRGBA.spinnerColorR);
+    store.setSpinnerPopupColorR(themeDataRGBA.spinnerPopupColorR);
+    store.setButtonPinCodeStart(themeDataRGBA.buttonPinCodeStart);
+    store.setButtonPinCodeEnd(themeDataRGBA.buttonPinCodeEnd);
+    store.setTextPinCode(themeDataRGBA.textPinCode);
+  }, [themeDataRGBA]);
+
+  const handleColorChange = (color: RGBColor) => {
+    store.setBackground(color);
+  };
 
   const [selectedFloor, setSelectedFloor] = useState<string>("");
   const [selectedResidence, setSelectedResidence] = useState<string>("");
   const [selectedUser, setSelectedUser] = useState<string>("member");
-
-  const handleSelectChange =
-    (key: string) => (event: SelectChangeEvent<string>) => {
-      const value = event.target.value;
-      switch (key) {
-        case "floor":
-          setSelectedFloor(value);
-          break;
-        case "residence":
-          setSelectedResidence(value);
-          break;
-        case "user":
-          setSelectedUser(value);
-          break;
-        default:
-          break;
-      }
-    };
-
-  const [buttonAStyle, setButtonAStyle] = useState<ButtonStyle>(
-    styleMainBackgroundColorButton
-  );
-  const [buttonBStyle, setButtonBStyle] = useState<ButtonStyle>(
-    styleBackgroundColorButton
-  );
-  const [buttonCStyle, setButtonCStyle] =
-    useState<ButtonStyle>(styleForgetButton);
+  const [buttonAStyle, setButtonAStyle] = useState<ButtonStyle>(styleMainBackgroundColorButton);
+  const [buttonBStyle, setButtonBStyle] = useState<ButtonStyle>(styleBackgroundColorButton);
+  const [buttonCStyle, setButtonCStyle] = useState<ButtonStyle>(styleForgetButton);
   const [buttonDStyle, setButtonDStyle] = useState<ButtonStyle>(styleTHButton);
   const [buttonEStyle, setButtonEStyle] = useState<ButtonStyle>(styleENButton);
-  const [buttonFStyle, setButtonFStyle] =
-    useState<ButtonStyle>(styleDateTextButton);
-  const [buttonGStyle, setButtonGStyle] =
-    useState<ButtonStyle>(styleFormControlBox);
-  const [buttonHStyle, setButtonHStyle] =
-    useState<ButtonStyle>(styleHomeIconButton);
-
+  const [buttonFStyle, setButtonFStyle] = useState<ButtonStyle>(styleDateTextButton);
+  const [buttonGStyle, setButtonGStyle] = useState<ButtonStyle>(styleFormControlBox);
+  const [buttonHStyle, setButtonHStyle] = useState<ButtonStyle>(styleHomeIconButton);
   const [anchorE1, setAnchorE1] = useState<HTMLButtonElement | null>(null);
   const [anchorE2, setAnchorE2] = useState<HTMLButtonElement | null>(null);
   const [anchorE3, setAnchorE3] = useState<HTMLButtonElement | null>(null);
@@ -163,16 +154,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
   const [anchorE7, setAnchorE7] = useState<HTMLButtonElement | null>(null);
   const [anchorE8, setAnchorE8] = useState<HTMLButtonElement | null>(null);
 
-  const setButtonStyles = [
-    setButtonAStyle,
-    setButtonBStyle,
-    setButtonCStyle,
-    setButtonDStyle,
-    setButtonEStyle,
-    setButtonFStyle,
-    setButtonGStyle,
-    setButtonHStyle,
-  ];
+  const setButtonStyles = [setButtonAStyle, setButtonBStyle, setButtonCStyle, setButtonDStyle, setButtonEStyle, setButtonFStyle, setButtonGStyle, setButtonHStyle];
 
   const handleClose1 = () => handleClose(setAnchorE1, setButtonStyles);
   const handleClose2 = () => handleClose(setAnchorE2, setButtonStyles);
@@ -206,6 +188,26 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
 
   const open8 = Boolean(anchorE8);
   const id8 = open8 ? "simple-popover" : undefined;
+
+
+  const handleSelectChange =
+    (key: string) => (event: SelectChangeEvent<string>) => {
+      const value = event.target.value;
+      switch (key) {
+        case "floor":
+          setSelectedFloor(value);
+          break;
+        case "residence":
+          setSelectedResidence(value);
+          break;
+        case "user":
+          setSelectedUser(value);
+          break;
+        default:
+          break;
+      }
+    };
+
 
   const handleAnchorClick = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -296,65 +298,70 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
   const [themes, setThemes] = useState<any[]>([]);
 
   useEffect(() => {
+    console.log(themesData)
     fetchData();
   }, []);
 
   const fetchData = async () => {
-      try {
-        const token = await getTokens();
-          const response = await axios.get('https://api-dev2.keyspace.tech/themes?type=locker-controller', {
-              headers: {
-                  Authorization: `Bearer ${token}`,
-              }
-  });
-          
-        const themesData = response.data.data.map((theme: any) => {
-          return {
-              _id: theme._id,
-              Data: {
-                  brandId: theme.brandId,
-                  projectId: theme.projectId,
-                  type: theme.type,
-                  title: theme.title,
-                  payLoad: theme.payLoad,
-                  createdAt: theme.createdAt,
-                  updatedAt: theme.updatedAt
-              }
-          };
-        });
-
-        themesData.forEach((themeData: any) => {
-          const { _id, Data } = themeData;
-          const listItem = document.createElement('li');
-          listItem.textContent = _id;
-          listItem.addEventListener('click', () => handleClick(Data));
-          document.getElementById('themesList')?.appendChild(listItem);
+    try {
+      const token = await getTokens();
+      const response = await axios.get('https://api-dev2.keyspace.tech/themes?type=locker-controller', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
-      
+
+      const themesData = response.data.data.map((theme: any) => {
+        return {
+          _id: theme._id,
+          Data: {
+            brandId: theme.brandId,
+            projectId: theme.projectId,
+            type: theme.type,
+            title: theme.title,
+            payLoad: theme.payLoad,
+            createdAt: theme.createdAt,
+            updatedAt: theme.updatedAt
+          }
+        };
+      });
+
+      themesData.forEach((themeData: any) => {
+        const { _id, Data } = themeData;
+        const listItem = document.createElement('li');
+        listItem.textContent = _id;
+        listItem.addEventListener('click', () => handleClick(Data));
+        document.getElementById('themesList')?.appendChild(listItem);
+      });
+
     } catch (error) {
       console.error('Error fetching data: ', error);
-  }
-};
+    }
+  };
 
-const handleClick = (data: any) => {
-  console.log('Clicked Theme Data:', data);
-};
+  const handleClick = (data: any) => {
+    console.log('Clicked Theme Data:', data);
+  };
 
   return (
     <>
       <Paper className="paperContainer">
         <div
           style={{
-            backgroundColor: `rgba(${store.background.r}, ${store.background.g}, ${store.background.b}, ${store.background.a})`,
+            backgroundColor: `rgba(
+              ${store.background.r}, ${store.background.g},
+              ${store.background.b}, ${store.background.a})`,
           }}
         >
           <div
             className="header"
             style={{
-              backgroundColor: `rgba(${store.mainBackgroundColor.r}, ${store.mainBackgroundColor.g}, ${store.mainBackgroundColor.b}, ${store.mainBackgroundColor.a})`,
+              backgroundColor: `rgba(
+                ${store.mainBackground.r}, ${store.mainBackground.g}, 
+                ${store.mainBackground.b}, ${store.mainBackground.a})`,
             }}
             onChange={(color) => {
-              console.log("mainBackground:", color); 
+              console.log("mainBackground:", color);
               const updatedThemes = [...themes];
               updatedThemes[0].mainBackground = color;
               setThemes(updatedThemes);
@@ -365,7 +372,7 @@ const handleClick = (data: any) => {
               <div
                 className="timeStyle"
                 style={{
-                  color: `rgba(${store.textOnMainBackground.r}, ${store.textOnMainBackground.g}, ${store.textOnMainBackground.b}, ${store.textOnMainBackground.a})`,
+                  color: `rgba(${store.textMainBackground.r}, ${store.textMainBackground.g}, ${store.textMainBackground.b}, ${store.textMainBackground.a})`,
                 }}
               >
                 <CurrentDate />
@@ -413,8 +420,8 @@ const handleClick = (data: any) => {
                     </div>
                     <ColorPickerTab
                       label=""
-                      color={store.textOnMainBackground}
-                      onChange={store.setTextOnMainBackground}
+                      color={store.textMainBackground}
+                      onChange={store.setTextMainBackground}
                     />
                   </div>
                 </div>
@@ -471,8 +478,8 @@ const handleClick = (data: any) => {
                     </div>
                     <ColorPickerTab
                       label=""
-                      color={store.mainBackgroundColor}
-                      onChange={store.setMainBackgroundColor}
+                      color={store.mainBackground}
+                      onChange={store.setMainBackground}
                     />
                   </div>
                 </div>
@@ -486,8 +493,13 @@ const handleClick = (data: any) => {
                 variant="outlined"
                 style={{
                   ...buttonDStyle,
-                  background: `linear-gradient(to top, rgba(${store.idelColorStart.r}, ${store.idelColorStart.g}, ${store.idelColorStart.b}, ${store.idelColorStart.a}), rgba(${store.ideColorEnd.r}, ${store.ideColorEnd.g}, ${store.ideColorEnd.b}, ${store.ideColorEnd.a}))`,
-                  color: `rgba(${store.textInLangBtIdel.r}, ${store.textInLangBtIdel.g}, ${store.textInLangBtIdel.b}, ${store.textInLangBtIdel.a})`,
+                  background: `linear-gradient(to top, rgba(
+                    ${store.inactiveLanguageStart.r}, ${store.inactiveLanguageStart.g}, 
+                    ${store.inactiveLanguageStart.b}, ${store.inactiveLanguageStart.a}), 
+                  rgba(
+                    ${store.inactiveLanguageEnd.r}, ${store.inactiveLanguageEnd.g}, 
+                    ${store.inactiveLanguageEnd.b}, ${store.inactiveLanguageEnd.a}))`,
+                  color: `rgba(${store.inactiveLanguageText.r}, ${store.inactiveLanguageText.g}, ${store.inactiveLanguageText.b}, ${store.inactiveLanguageText.a})`,
                 }}
                 onClick={(e) =>
                   handleButtonClick(
@@ -528,24 +540,24 @@ const handleClick = (data: any) => {
                     </div>
                     <ColorPickerTab
                       label=""
-                      color={store.ideColorEnd}
-                      onChange={store.setIdeColorEnd}
+                      color={store.inactiveLanguageEnd}
+                      onChange={store.setInactiveLanguageEnd}
                     />
                     <div className="popOverBetweenTag">
                       <label>Idel Color Start</label>
                     </div>
                     <ColorPickerTab
                       label=""
-                      color={store.idelColorStart}
-                      onChange={store.setIdelColorStart}
+                      color={store.inactiveLanguageStart}
+                      onChange={store.setInactiveLanguageStart}
                     />
                     <div className="popOverBetweenTag">
                       <label>Text In Lang Button Idel Color</label>
                     </div>
                     <ColorPickerTab
                       label=""
-                      color={store.textInLangBtIdel}
-                      onChange={store.setTextInLangBtIdel}
+                      color={store.inactiveLanguageText}
+                      onChange={store.setInactiveLanguageText}
                     />
                   </div>
                 </div>
@@ -556,8 +568,16 @@ const handleClick = (data: any) => {
                 variant="outlined"
                 style={{
                   ...buttonEStyle,
-                  background: `linear-gradient(to top, rgba(${store.inUseColorStart.r}, ${store.inUseColorStart.g}, ${store.inUseColorStart.b}, ${store.inUseColorStart.a}), rgba(${store.inUseColorEnd.r}, ${store.inUseColorEnd.g}, ${store.inUseColorEnd.b}, ${store.inUseColorEnd.a}))`,
-                  color: `rgba(${store.textInLangBtInUse.r}, ${store.textInLangBtInUse.g}, ${store.textInLangBtInUse.b}, ${store.textInLangBtInUse.a})`,
+                  background:
+                    `linear-gradient(to top, rgba(
+                    ${store.activeLanguageStart.r}, ${store.activeLanguageStart.g}, 
+                    ${store.activeLanguageStart.b}, ${store.activeLanguageStart.a}), 
+                  rgba(
+                    ${store.activeLanguageEnd.r}, ${store.activeLanguageEnd.g}, 
+                    ${store.activeLanguageEnd.b}, ${store.activeLanguageEnd.a}))`,
+                  color: `rgba(
+                    ${store.activeLanguageText.r}, ${store.activeLanguageText.g}, 
+                    ${store.activeLanguageText.b}, ${store.activeLanguageText.a})`,
                 }}
                 onClick={(e) =>
                   handleButtonClick(
@@ -598,24 +618,24 @@ const handleClick = (data: any) => {
                     </div>
                     <ColorPickerTab
                       label=""
-                      color={store.inUseColorStart}
-                      onChange={store.setInUseColorStart}
+                      color={store.activeLanguageStart}
+                      onChange={store.setActiveLanguageStart}
                     />
                     <div className="popOverBetweenTag">
                       <label>In Use Color End</label>
                     </div>
                     <ColorPickerTab
                       label=""
-                      color={store.inUseColorEnd}
-                      onChange={store.setInUseColorEnd}
+                      color={store.activeLanguageEnd}
+                      onChange={store.setActiveLanguageEnd}
                     />
                     <div className="popOverBetweenTag">
                       <label>Text In Lang Button In Use Color</label>
                     </div>
                     <ColorPickerTab
                       label=""
-                      color={store.textInLangBtInUse}
-                      onChange={store.setTextInLangBtInUse}
+                      color={store.activeLanguageText}
+                      onChange={store.setActiveLanguageText}
                     />
                   </div>
                 </div>
@@ -712,7 +732,9 @@ const handleClick = (data: any) => {
                   <text
                     className="verifyPasscodeTextStyle"
                     style={{
-                      color: `rgba(${store.textOnBackground.r}, ${store.textOnBackground.g}, ${store.textOnBackground.b}, ${store.textOnBackground.a})`,
+                      color: `rgba(
+                        ${store.textBackground.r}, ${store.textBackground.g}, 
+                        ${store.textBackground.b}, ${store.textBackground.a})`,
                     }}
                   >
                     Verify passcode
@@ -723,7 +745,9 @@ const handleClick = (data: any) => {
                   <text
                     className="selectFloorTextStyle"
                     style={{
-                      color: `rgba(${store.textOnBackground.r}, ${store.textOnBackground.g}, ${store.textOnBackground.b}, ${store.textOnBackground.a})`,
+                      color: `rgba(
+                        ${store.textBackground.r}, ${store.textBackground.g}, 
+                        ${store.textBackground.b}, ${store.textBackground.a})`,
                     }}
                   >
                     Select Floor
@@ -736,10 +760,10 @@ const handleClick = (data: any) => {
                       style={{
                         fontWeight: "bold",
                         borderRadius: "20px 20px 0 0",
-                        backgroundColor: selectedFloor
-                          ? `rgba(${store.spinnerPopupColor.r}, ${store.spinnerPopupColor.g}, ${store.spinnerPopupColor.b}, ${store.spinnerPopupColor.a})`
-                          : `rgba(${store.spinnerColor.r}, ${store.spinnerColor.g}, ${store.spinnerColor.b}, ${store.spinnerColor.a})`,
-                        color: `rgba(${store.inComponent.r}, ${store.inComponent.g}, ${store.inComponent.b}, ${store.inComponent.a})`,
+                        backgroundColor: selectedResidence
+                          ? `rgba(${store.spinnerPopupColorR.r}, ${store.spinnerPopupColorR.g}, ${store.spinnerPopupColorR.b}, ${store.spinnerPopupColorR.a})`
+                          : `rgba(${store.spinnerColorR.r}, ${store.spinnerColorR.g}, ${store.spinnerColorR.b}, ${store.spinnerColorR.a})`,
+                        color: `rgba(${store.textComponent.r}, ${store.textComponent.g}, ${store.textComponent.b}, ${store.textComponent.a})`,
                       }}
                     >
                       <MenuItem value="">
@@ -756,7 +780,9 @@ const handleClick = (data: any) => {
                   <text
                     className="selectUserTextStyle"
                     style={{
-                      color: `rgba(${store.textOnBackground.r}, ${store.textOnBackground.g}, ${store.textOnBackground.b}, ${store.textOnBackground.a})`,
+                      color: `rgba(
+                        ${store.textBackground.r}, ${store.textBackground.g}, 
+                        ${store.textBackground.b}, ${store.textBackground.a})`,
                     }}
                   >
                     Select Residence
@@ -769,9 +795,9 @@ const handleClick = (data: any) => {
                       style={{
                         fontWeight: "bold",
                         backgroundColor: selectedResidence
-                          ? `rgba(${store.spinnerPopupColor.r}, ${store.spinnerPopupColor.g}, ${store.spinnerPopupColor.b}, ${store.spinnerPopupColor.a})`
-                          : `rgba(${store.spinnerColor.r}, ${store.spinnerColor.g}, ${store.spinnerColor.b}, ${store.spinnerColor.a})`,
-                        color: `rgba(${store.inComponent.r}, ${store.inComponent.g}, ${store.inComponent.b}, ${store.inComponent.a})`,
+                          ? `rgba(${store.spinnerPopupColorR.r}, ${store.spinnerPopupColorR.g}, ${store.spinnerPopupColorR.b}, ${store.spinnerPopupColorR.a})`
+                          : `rgba(${store.spinnerColorR.r}, ${store.spinnerColorR.g}, ${store.spinnerColorR.b}, ${store.spinnerColorR.a})`,
+                        color: `rgba(${store.textComponent.r}, ${store.textComponent.g}, ${store.textComponent.b}, ${store.textComponent.a})`,
                       }}
                     >
                       <MenuItem value="">
@@ -788,7 +814,9 @@ const handleClick = (data: any) => {
                   <text
                     className="selectUserTextStyle"
                     style={{
-                      color: `rgba(${store.textOnBackground.r}, ${store.textOnBackground.g}, ${store.textOnBackground.b}, ${store.textOnBackground.a})`,
+                      color: `rgba(
+                        ${store.textBackground.r}, ${store.textBackground.g}, 
+                        ${store.textBackground.b}, ${store.textBackground.a})`,
                     }}
                   >
                     Select User
@@ -802,9 +830,9 @@ const handleClick = (data: any) => {
                         fontWeight: "bold",
                         borderRadius: "0 0 20px 20px",
                         backgroundColor: selectedUser
-                          ? `rgba(${store.spinnerPopupColor.r}, ${store.spinnerPopupColor.g}, ${store.spinnerPopupColor.b}, ${store.spinnerPopupColor.a})`
-                          : `rgba(${store.spinnerColor.r}, ${store.spinnerColor.g}, ${store.spinnerColor.b}, ${store.spinnerColor.a})`,
-                        color: `rgba(${store.inComponent.r}, ${store.inComponent.g}, ${store.inComponent.b}, ${store.inComponent.a})`,
+                          ? `rgba(${store.spinnerPopupColorR.r}, ${store.spinnerPopupColorR.g}, ${store.spinnerPopupColorR.b}, ${store.spinnerPopupColorR.a})`
+                          : `rgba(${store.spinnerColorR.r}, ${store.spinnerColorR.g}, ${store.spinnerColorR.b}, ${store.spinnerColorR.a})`,
+                        color: `rgba(${store.textComponent.r}, ${store.textComponent.g}, ${store.textComponent.b}, ${store.textComponent.a})`,
                       }}
                       renderValue={(selected) => (
                         <div>
@@ -842,32 +870,32 @@ const handleClick = (data: any) => {
                     </div>
                     <ColorPickerTab
                       label=""
-                      color={store.textOnBackground}
-                      onChange={store.setTextOnBackground}
+                      color={store.textBackground}
+                      onChange={store.setTextBackground}
                     />
                     <div className="popOverBetweenTag">
                       <label>Spinner Color</label>
                     </div>
                     <ColorPickerTab
                       label=""
-                      color={store.spinnerColor}
-                      onChange={store.setSpinnerColor}
+                      color={store.spinnerColorR}
+                      onChange={store.setSpinnerColorR}
                     />
                     <div className="popOverBetweenTag">
                       <label>Spinner Popup Color</label>
                     </div>
                     <ColorPickerTab
                       label=""
-                      color={store.spinnerPopupColor}
-                      onChange={store.setSpinnerPopupColor}
+                      color={store.spinnerPopupColorR}
+                      onChange={store.setSpinnerPopupColorR}
                     />
                     <div className="popOverBetweenTag">
                       <label>In Component Color</label>
                     </div>
                     <ColorPickerTab
                       label=""
-                      color={store.inComponent}
-                      onChange={store.setInComponent}
+                      color={store.textComponent}
+                      onChange={store.setTextComponent}
                     />
                   </div>
                 </div>
@@ -885,7 +913,8 @@ const handleClick = (data: any) => {
                       variant="contained"
                       style={{
                         ...buttonCStyle,
-                        background: `linear-gradient(to bottom, rgba(${store.themeColorStart.r}, ${store.themeColorStart.g}, ${store.themeColorStart.b}, ${store.themeColorStart.a}), rgba(${store.themeColorEnd.r}, ${store.themeColorEnd.g}, ${store.themeColorEnd.b}, ${store.themeColorEnd.a}))`,
+                        background: `linear-gradient(to bottom, rgba(${store.primaryButtonStart.r}, ${store.primaryButtonStart.g}, ${store.primaryButtonStart.b}, ${store.primaryButtonStart.a}), 
+                        rgba(${store.primaryButtonEnd.r}, ${store.primaryButtonEnd.g}, ${store.primaryButtonEnd.b}, ${store.primaryButtonEnd.a}))`,
                         color: `rgba(${store.textButton.r}, ${store.textButton.g}, ${store.textButton.b}, ${store.textButton.a})`,
                       }}
                       onClick={(e) =>
@@ -927,16 +956,16 @@ const handleClick = (data: any) => {
                           </div>
                           <ColorPickerTab
                             label=""
-                            color={store.themeColorStart}
-                            onChange={store.setThemeColorStart}
+                            color={store.primaryButtonStart}
+                            onChange={store.setPrimaryButtonStart}
                           />
                           <div className="popOverBetweenTag">
                             <label>Theme Color End</label>
                           </div>
                           <ColorPickerTab
                             label=""
-                            color={store.themeColorEnd}
-                            onChange={store.setThemeColorEnd}
+                            color={store.primaryButtonEnd}
+                            onChange={store.setPrimaryButtonEnd}
                           />
                           <div className="popOverBetweenTag">
                             <label>Text Button Color</label>
@@ -979,7 +1008,7 @@ const handleClick = (data: any) => {
                     <HomeIcon
                       className="homeIconStyle"
                       style={{
-                        color: `rgba(${store.textOnBackground.r}, ${store.textOnBackground.g}, ${store.textOnBackground.b}, ${store.textOnBackground.a})`,
+                        color: `rgba(${store.textBackground.r}, ${store.textBackground.g}, ${store.textBackground.b}, ${store.textBackground.a})`,
                       }}
                     />
                   </Button>
@@ -991,7 +1020,8 @@ const handleClick = (data: any) => {
                     variant="contained"
                     style={{
                       ...buttonCStyle,
-                      background: `linear-gradient(to bottom, rgba(${store.themeColorStart.r}, ${store.themeColorStart.g}, ${store.themeColorStart.b}, ${store.themeColorStart.a}), rgba(${store.themeColorEnd.r}, ${store.themeColorEnd.g}, ${store.themeColorEnd.b}, ${store.themeColorEnd.a}))`,
+                      background: `linear-gradient(to bottom, rgba(${store.secondaryButtonStart.r}, ${store.secondaryButtonStart.g}, ${store.secondaryButtonStart.b}, ${store.secondaryButtonStart.a}), 
+                      rgba(${store.secondaryButtonEnd.r}, ${store.secondaryButtonEnd.g}, ${store.secondaryButtonEnd.b}, ${store.secondaryButtonEnd.a}))`,
                       color: `rgba(${store.textButton.r}, ${store.textButton.g}, ${store.textButton.b}, ${store.textButton.a})`,
                     }}
                     onClick={(e) =>
@@ -1033,16 +1063,16 @@ const handleClick = (data: any) => {
                         </div>
                         <ColorPickerTab
                           label=""
-                          color={store.themeColorStart}
-                          onChange={store.setThemeColorStart}
+                          color={store.secondaryButtonStart}
+                          onChange={store.setSecondaryButtonStart}
                         />
                         <div className="popOverBetweenTag">
                           <label>Theme Color End</label>
                         </div>
                         <ColorPickerTab
                           label=""
-                          color={store.themeColorEnd}
-                          onChange={store.setThemeColorEnd}
+                          color={store.secondaryButtonEnd}
+                          onChange={store.setSecondaryButtonEnd}
                         />
                         <div className="popOverBetweenTag">
                           <label>Text Button Color</label>

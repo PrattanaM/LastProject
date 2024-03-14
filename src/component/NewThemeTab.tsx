@@ -10,22 +10,14 @@ import ColorPicker from './ColorPicker';
 import axios from 'axios';
 import getTokens from '../utils/getTokens';
 import { useColorStore } from '../container/colorStore';
-import useStore from '../Test&Example/zustandExample';
-import { Buffer } from 'buffer';
 import { ThemeData } from '../types/types';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Paper, { PaperProps } from '@mui/material/Paper';
 
 function NewThemeTab() {
-    // const [rectangles, setRectangles] = useState<number[]>([]);
+
     const [selectedRectangle, setSelectedRectangle] = useState<number | null>(null);
     const [themes, setThemes] = useState<any[]>([]);
-    const setColorStore = useColorStore((state) => state.setMainBackgroundColor);
+    const setColorStore = useColorStore((state) => state.setMainBackground);
     const [themesData, setThemesData] = useState<ThemeData[]>([]);
     const effectRan = useRef(false);
 
@@ -46,7 +38,7 @@ function NewThemeTab() {
             });
             // console.log(response.data);
             console.log('Themes Data:',);
-            // setThemes(response.data.data);
+            setThemes(response.data.data);
         } catch (error) {
             console.error('Error fetching data: ', error);
         }
@@ -60,23 +52,25 @@ function NewThemeTab() {
                     Authorization: `Bearer ${token}`,
                 }
             });
-            // console.log(response.data);
             const data = response.data.data;
             setThemes(data);
-            setThemesData(data);
             console.log('Themes Data:', data);
-            // setThemes(response.data.data);
+            setThemes(response.data.data);
         } catch (error) {
             console.error('Error fetching data: ', error);
         }
     }
 
     const handleRectangleClick = (id: number) => {
+        const theme = themes.find(item => item._id === id);
+        setSelectedTheme(theme);
         setSelectedRectangle(id);
-        console.log('Selected theme ' + id + ' : ', themes.find(item => item._id === id));
+        console.log('Selected theme ' + id);
+        // + ' : ', themes.find(item => item._id === id)
     };
 
     const handleCloseModal = () => {
+        setSelectedTheme(null);
         setSelectedRectangle(null);
     };
 
@@ -90,14 +84,34 @@ function NewThemeTab() {
         createTheme();
     };
 
+    const [selectedTheme, setSelectedTheme] = useState<any>(null);
+
     const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
+    const handleDeleteClick = async (id: number) => {
+        const theme = themes.find(item => item._id === id);
+        setSelectedTheme(theme);
+        setSelectedRectangle(id);
+        console.log('Delete Selected theme ' + id);
+        // เปิดแล้วกดลบได้เลย
+        // try {
+        //     const token = await getTokens();
+        //     const response = await axios.delete(`https://api-dev2.keyspace.tech/themes/${id}`, {
+        //         params: {
+        //             type: 'locker-controller',
+        //             // ระบุข้อมูลเพิ่มเติมที่จำเป็นสำหรับการลบธีม (ถ้ามี)
+        //         },
+        //         headers: {
+        //             Authorization: `Bearer ${token}`,
+        //         }
+        //         // ส่ง header หรือข้อมูลอื่นๆที่จำเป็น (ถ้ามี)
+        //     });
+        //     console.log('Theme deleted successfully');
+        //     // ทำอะไรต่อหลังจากลบธีมสำเร็จ เช่น โหลดธีมใหม่
+        // } catch (error) {
+        //     console.error('Error deleting theme:', error);
+        //     // ทำอะไรต่อหลังจากเกิดข้อผิดพลาดในการลบธีม เช่น แสดงข้อความผิดพลาด
+        // }
     };
 
     return (
@@ -138,8 +152,8 @@ function NewThemeTab() {
                         justifyContent: 'center',
                         position: 'relative'
                     }}>
-                        <Button onClick={handleClickOpen} sx={{ position: 'absolute', top: '10px', right: '10px', height: '30px', color: 'red', '&:hover': { backgroundColor: 'transparent', color: 'red' }}}>
-                            <HighlightOffIcon/>
+                        <Button onClick={() => handleDeleteClick(theme._id)} sx={{ position: 'absolute', top: '10px', right: '10px', height: '30px', color: 'red', '&:hover': { backgroundColor: 'transparent', color: 'red' } }}>
+                            <HighlightOffIcon />
                         </Button>
                         <Box onClick={() => handleRectangleClick(theme._id)} sx={{ cursor: 'pointer', w: '100px', h: '100px' }}>
                             <EditIcon style={{ fontSize: '50px', paddingBottom: '20px' }} />
@@ -148,30 +162,7 @@ function NewThemeTab() {
                     </Box>
                 </Grid>
             ))}
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="draggable-dialog-title"
-                aria-describedby="alert-dialog-description"
-                BackdropProps={{
-                    sx: { backgroundColor: 'rgba(0, 0, 0, 0.5)' }
-                }}
-            >
-                <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-                    ยืนยันการลบTheme
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        ต้องการลบ Theme หรือไม่
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={handleClose}>
-                        Cancel
-                    </Button>
-                    <Button onClick={handleClose} sx={{ color: 'red' }}>Delete</Button>
-                </DialogActions>
-            </Dialog>
+
 
             <Modal
                 open={selectedRectangle !== null}
@@ -193,7 +184,7 @@ function NewThemeTab() {
                         borderRadius: 3
                     }}>
 
-                    <ColorPicker themesData={themes} />
+                    <ColorPicker themesData={selectedTheme} />
 
                 </Box>
             </Modal>
