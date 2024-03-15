@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 
 export default function CurrentDate(): JSX.Element{

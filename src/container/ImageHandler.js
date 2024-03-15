@@ -1,8 +1,7 @@
-// ImageHandler.js
-import React, { useState } from "react";
+import { useState } from "react";
 
 const ImageHandler = ({ onImageChange }) => {
-  const [image, setImage] = useState(null);
+  const [ setImage ] = useState(null);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files && event.target.files[0];
@@ -29,7 +28,7 @@ const ImageHandler = ({ onImageChange }) => {
       <div>
         <input type="file" accept=".png" onChange={handleFileChange} />
       </div>
-      <div style={{ marginTop: '10px'}}>
+      <div style={{ marginTop: "10px" }}>
         <button onClick={handleRemoveImage}>Remove</button>
       </div>
     </div>

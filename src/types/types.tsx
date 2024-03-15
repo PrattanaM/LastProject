@@ -1,9 +1,7 @@
 export interface ThemeData {
     brandId: string;
     createdAt: string;
-    payLoad: { 
-        LockerController: LockerControllerData;
-    };
+    payLoad: { LockerController: LockerControllerData; };
     projectId: string;
     title: string ;
     type: string;
@@ -49,12 +47,10 @@ export interface LockerControllerData {
         color: string;
         popupColor: string;
     };
-    
     buttonPinCode: {
         start: string;
         end: string;
     };
-
     textPinCode: string;
 }
 
@@ -68,8 +64,8 @@ export interface language {
         inactiveLanguageStart: string;
         inactiveLanguageEnd: string;
     };
-
 }
+
 export interface ColorPickerProps {
     themesData: ThemeData;
   }

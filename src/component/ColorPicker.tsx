@@ -12,13 +12,11 @@ import HomeIcon from "@mui/icons-material/Home";
 import axios from "axios";
 import getTokens from '../utils/getTokens';
 import { ColorPickerProps } from "../types/types";
-import { ThemeData } from '../types/types';
 import { hexToRgb } from "../container/utils";
-import { RGBColor } from "react-color";
 
 const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
 
-  const [themeDataRGBA, setThemeDataRGBA] = useState({
+  const [themeDataRGBA] = useState({
     mainBackground: hexToRgb(themesData.payLoad.LockerController.backgroundGroup.header),
     backgroundD: hexToRgb(themesData.payLoad.LockerController.backgroundGroup.body),
     bottomBackground: hexToRgb(themesData.payLoad.LockerController.backgroundGroup.footer),
@@ -130,10 +128,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
     store.setTextPinCode(themeDataRGBA.textPinCode);
   }, [themeDataRGBA]);
 
-  const handleColorChange = (color: RGBColor) => {
-    store.setBackground(color);
-  };
-
   const [selectedFloor, setSelectedFloor] = useState<string>("");
   const [selectedResidence, setSelectedResidence] = useState<string>("");
   const [selectedUser, setSelectedUser] = useState<string>("member");
@@ -153,8 +147,14 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
   const [anchorE6, setAnchorE6] = useState<HTMLButtonElement | null>(null);
   const [anchorE7, setAnchorE7] = useState<HTMLButtonElement | null>(null);
   const [anchorE8, setAnchorE8] = useState<HTMLButtonElement | null>(null);
+  const [LogoImage, setLogoImage] = useState<string | null>(null);
+  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
+  const [themes, setThemes] = useState<any[]>([]);
 
-  const setButtonStyles = [setButtonAStyle, setButtonBStyle, setButtonCStyle, setButtonDStyle, setButtonEStyle, setButtonFStyle, setButtonGStyle, setButtonHStyle];
+  const setButtonStyles = [
+    setButtonAStyle, setButtonBStyle, setButtonCStyle, setButtonDStyle,
+    setButtonEStyle, setButtonFStyle, setButtonGStyle, setButtonHStyle
+  ];
 
   const handleClose1 = () => handleClose(setAnchorE1, setButtonStyles);
   const handleClose2 = () => handleClose(setAnchorE2, setButtonStyles);
@@ -189,25 +189,22 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
   const open8 = Boolean(anchorE8);
   const id8 = open8 ? "simple-popover" : undefined;
 
-
-  const handleSelectChange =
-    (key: string) => (event: SelectChangeEvent<string>) => {
-      const value = event.target.value;
-      switch (key) {
-        case "floor":
-          setSelectedFloor(value);
-          break;
-        case "residence":
-          setSelectedResidence(value);
-          break;
-        case "user":
-          setSelectedUser(value);
-          break;
-        default:
-          break;
-      }
-    };
-
+  const handleSelectChange = (key: string) => (event: SelectChangeEvent<string>) => {
+    const value = event.target.value;
+    switch (key) {
+      case "floor":
+        setSelectedFloor(value);
+        break;
+      case "residence":
+        setSelectedResidence(value);
+        break;
+      case "user":
+        setSelectedUser(value);
+        break;
+      default:
+        break;
+    }
+  };
 
   const handleAnchorClick = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -284,9 +281,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
     });
   };
 
-  const [LogoImage, setLogoImage] = useState<string | null>(null);
-  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
-
   const handleLogoImageChange = (image: string | null) => {
     setLogoImage(image);
   };
@@ -294,8 +288,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
   const handleBackgroundImageChange = (image: string | null) => {
     setBackgroundImage(image);
   };
-
-  const [themes, setThemes] = useState<any[]>([]);
 
   useEffect(() => {
     console.log(themesData)
@@ -351,8 +343,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
             backgroundColor: `rgba(
               ${store.background.r}, ${store.background.g},
               ${store.background.b}, ${store.background.a})`,
-          }}
-        >
+          }}>
           <div
             className="header"
             style={{
@@ -365,16 +356,16 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
               const updatedThemes = [...themes];
               updatedThemes[0].mainBackground = color;
               setThemes(updatedThemes);
-            }}
-          >
+            }}>
             {/* Date and Time */}
             <div className="timeBox">
               <div
                 className="timeStyle"
                 style={{
-                  color: `rgba(${store.textMainBackground.r}, ${store.textMainBackground.g}, ${store.textMainBackground.b}, ${store.textMainBackground.a})`,
-                }}
-              >
+                  color: `rgba(
+                    ${store.textMainBackground.r}, ${store.textMainBackground.g}, 
+                    ${store.textMainBackground.b}, ${store.textMainBackground.a})`,
+                }}>
                 <CurrentDate />
               </div>
               <Button
@@ -395,12 +386,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                       { style: buttonEStyle, setter: setButtonEStyle },
                       { style: buttonGStyle, setter: setButtonGStyle },
                       { style: buttonHStyle, setter: setButtonHStyle },
-                    ],
-                    7,
-                    e
-                  )
-                }
-              ></Button>
+                    ], 7, e )}>
+              </Button>
               <Popover
                 id={id7}
                 open={open7}
@@ -411,18 +398,15 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                 anchorOrigin={{
                   vertical: "bottom",
                   horizontal: "left",
-                }}
-              >
+                }}>
                 <div className="popOverTextOnMainBackground">
                   <div className="popOverMarginStyle">
                     <div className="popOverBetweenTag">
                       <label>Text On Main Background Color</label>
                     </div>
                     <ColorPickerTab
-                      label=""
                       color={store.textMainBackground}
-                      onChange={store.setTextMainBackground}
-                    />
+                      onChange={store.setTextMainBackground} />
                   </div>
                 </div>
               </Popover>
@@ -434,10 +418,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                 key={1}
                 aria-describedby={id1}
                 variant="outlined"
-                style={{
-                  ...buttonAStyle,
-                  backgroundImage: `url(${LogoImage})`,
-                }}
+                style={{...buttonAStyle,
+                  backgroundImage: `url(${LogoImage})` }}
                 onClick={(e) =>
                   handleButtonClick(
                     buttonAStyle,
@@ -450,12 +432,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                       { style: buttonFStyle, setter: setButtonFStyle },
                       { style: buttonGStyle, setter: setButtonGStyle },
                       { style: buttonHStyle, setter: setButtonHStyle },
-                    ],
-                    1,
-                    e
-                  )
-                }
-              ></Button>
+                    ], 1, e )}>
+              </Button>
               <Popover
                 id={id1}
                 open={open1}
@@ -466,8 +444,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                 anchorOrigin={{
                   vertical: "bottom",
                   horizontal: "left",
-                }}
-              >
+                }}>
                 <div className="popOverLogo">
                   <div className="popOverMarginStyle">
                     <div className="popOverBetweenTag">
@@ -477,10 +454,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                       <label>Main Background Color</label>
                     </div>
                     <ColorPickerTab
-                      label=""
                       color={store.mainBackground}
-                      onChange={store.setMainBackground}
-                    />
+                      onChange={store.setMainBackground} />
                   </div>
                 </div>
               </Popover>
@@ -499,7 +474,9 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                   rgba(
                     ${store.inactiveLanguageEnd.r}, ${store.inactiveLanguageEnd.g}, 
                     ${store.inactiveLanguageEnd.b}, ${store.inactiveLanguageEnd.a}))`,
-                  color: `rgba(${store.inactiveLanguageText.r}, ${store.inactiveLanguageText.g}, ${store.inactiveLanguageText.b}, ${store.inactiveLanguageText.a})`,
+                  color: `rgba(
+                    ${store.inactiveLanguageText.r}, ${store.inactiveLanguageText.g}, 
+                    ${store.inactiveLanguageText.b}, ${store.inactiveLanguageText.a})`,
                 }}
                 onClick={(e) =>
                   handleButtonClick(
@@ -513,12 +490,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                       { style: buttonFStyle, setter: setButtonFStyle },
                       { style: buttonGStyle, setter: setButtonGStyle },
                       { style: buttonHStyle, setter: setButtonHStyle },
-                    ],
-                    5,
-                    e
-                  )
-                }
-              >
+                    ], 5, e )}>
                 TH
               </Button>
               <Popover
@@ -531,40 +503,32 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                 anchorOrigin={{
                   vertical: "bottom",
                   horizontal: "left",
-                }}
-              >
+                }}>
                 <div className="popOverChangeLanguage">
                   <div className="popOverMarginStyle">
                     <div className="popOverBetweenTag">
                       <label>Idel Color End</label>
                     </div>
                     <ColorPickerTab
-                      label=""
                       color={store.inactiveLanguageEnd}
-                      onChange={store.setInactiveLanguageEnd}
-                    />
+                      onChange={store.setInactiveLanguageEnd} />
                     <div className="popOverBetweenTag">
                       <label>Idel Color Start</label>
                     </div>
                     <ColorPickerTab
-                      label=""
                       color={store.inactiveLanguageStart}
-                      onChange={store.setInactiveLanguageStart}
-                    />
+                      onChange={store.setInactiveLanguageStart} />
                     <div className="popOverBetweenTag">
                       <label>Text In Lang Button Idel Color</label>
                     </div>
                     <ColorPickerTab
-                      label=""
                       color={store.inactiveLanguageText}
-                      onChange={store.setInactiveLanguageText}
-                    />
+                      onChange={store.setInactiveLanguageText} />
                   </div>
                 </div>
               </Popover>
 
-              <Button
-                aria-describedby={id6}
+              <Button aria-describedby={id6}
                 variant="outlined"
                 style={{
                   ...buttonEStyle,
@@ -591,12 +555,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                       { style: buttonFStyle, setter: setButtonFStyle },
                       { style: buttonGStyle, setter: setButtonGStyle },
                       { style: buttonHStyle, setter: setButtonHStyle },
-                    ],
-                    6,
-                    e
-                  )
-                }
-              >
+                    ], 6, e )}>
                 EN
               </Button>
               <Popover
@@ -609,34 +568,27 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                 anchorOrigin={{
                   vertical: "bottom",
                   horizontal: "left",
-                }}
-              >
+                }}>
                 <div className="popOverChangeLanguage">
                   <div className="popOverMarginStyle">
                     <div className="popOverBetweenTag">
                       <label>In Use Color Start</label>
                     </div>
                     <ColorPickerTab
-                      label=""
                       color={store.activeLanguageStart}
-                      onChange={store.setActiveLanguageStart}
-                    />
+                      onChange={store.setActiveLanguageStart} />
                     <div className="popOverBetweenTag">
                       <label>In Use Color End</label>
                     </div>
                     <ColorPickerTab
-                      label=""
                       color={store.activeLanguageEnd}
-                      onChange={store.setActiveLanguageEnd}
-                    />
+                      onChange={store.setActiveLanguageEnd} />
                     <div className="popOverBetweenTag">
                       <label>Text In Lang Button In Use Color</label>
                     </div>
                     <ColorPickerTab
-                      label=""
                       color={store.activeLanguageText}
-                      onChange={store.setActiveLanguageText}
-                    />
+                      onChange={store.setActiveLanguageText} />
                   </div>
                 </div>
               </Popover>
@@ -646,13 +598,10 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
           {/* body */}
           <div className="body">
             <div className="backgroundStyle">
-              <Button
-                aria-describedby={id2}
+              <Button aria-describedby={id2}
                 variant="outlined"
-                style={{
-                  ...buttonBStyle,
-                  backgroundImage: `url(${backgroundImage})`,
-                }}
+                style={{ ...buttonBStyle,
+                  backgroundImage: `url(${backgroundImage})` }}
                 onClick={(e) =>
                   handleButtonClick(
                     buttonBStyle,
@@ -665,12 +614,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                       { style: buttonFStyle, setter: setButtonFStyle },
                       { style: buttonGStyle, setter: setButtonGStyle },
                       { style: buttonHStyle, setter: setButtonHStyle },
-                    ],
-                    2,
-                    e
-                  )
-                }
-              ></Button>
+                    ], 2, e )}>
+              </Button>
               <Popover
                 id={id2}
                 open={open2}
@@ -678,39 +623,29 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                 anchorReference="anchorPosition"
                 anchorPosition={{ top: 200, left: 1260 }}
                 onClose={handleClose2}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-              >
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}>
                 <div className="popOverBackground">
                   <div className="popOverMarginStyle">
                     <div className="popOverBetweenTag">
-                      <ImageHandler
-                        onImageChange={handleBackgroundImageChange}
-                      />
+                      <ImageHandler onImageChange={handleBackgroundImageChange} />
                     </div>
                     <div className="popOverBetweenTag">
                       <label>Background Color</label>
                     </div>
                     <ColorPickerTab
-                      label=""
                       color={store.background}
-                      onChange={store.setBackground}
-                    />
+                      onChange={store.setBackground} />
                   </div>
                 </div>
               </Popover>
             </div>
+
             {/* ครึ่งบน */}
             <div className="formControlBox">
-              <Button
-                aria-describedby={id2}
+              <Button aria-describedby={id2}
                 variant="outlined"
                 className="verifyPasscodeBox"
-                style={{
-                  ...buttonGStyle,
-                }}
+                style={{ ...buttonGStyle }}
                 onClick={(e) =>
                   handleButtonClick(
                     buttonGStyle,
@@ -722,50 +657,43 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                       { style: buttonDStyle, setter: setButtonDStyle },
                       { style: buttonEStyle, setter: setButtonEStyle },
                       { style: buttonFStyle, setter: setButtonFStyle },
-                    ],
-                    8,
-                    e
-                  )
-                }
-              >
+                    ], 8, e)}>
                 <div className="verifyPasscodeBox">
-                  <text
-                    className="verifyPasscodeTextStyle"
-                    style={{
-                      color: `rgba(
+                  <text className="verifyPasscodeTextStyle"
+                    style={{ color: `rgba(
                         ${store.textBackground.r}, ${store.textBackground.g}, 
                         ${store.textBackground.b}, ${store.textBackground.a})`,
-                    }}
-                  >
+                    }}>
                     Verify passcode
                   </text>
                 </div>
 
                 <div className="selectFloorBox">
-                  <text
-                    className="selectFloorTextStyle"
-                    style={{
-                      color: `rgba(
+                  <text className="selectFloorTextStyle"
+                    style={{ color: `rgba(
                         ${store.textBackground.r}, ${store.textBackground.g}, 
                         ${store.textBackground.b}, ${store.textBackground.a})`,
-                    }}
-                  >
+                    }}>
                     Select Floor
                   </text>
                   <FormControl className="formControlStyle">
-                    <Select
-                      value={selectedFloor}
+                    <Select value={selectedFloor}
                       onChange={handleSelectChange("floor")}
                       className="selectedStyle selectedFloor"
                       style={{
                         fontWeight: "bold",
                         borderRadius: "20px 20px 0 0",
                         backgroundColor: selectedResidence
-                          ? `rgba(${store.spinnerPopupColorR.r}, ${store.spinnerPopupColorR.g}, ${store.spinnerPopupColorR.b}, ${store.spinnerPopupColorR.a})`
-                          : `rgba(${store.spinnerColorR.r}, ${store.spinnerColorR.g}, ${store.spinnerColorR.b}, ${store.spinnerColorR.a})`,
-                        color: `rgba(${store.textComponent.r}, ${store.textComponent.g}, ${store.textComponent.b}, ${store.textComponent.a})`,
-                      }}
-                    >
+                          ? `rgba(
+                            ${store.spinnerPopupColorR.r}, ${store.spinnerPopupColorR.g}, 
+                            ${store.spinnerPopupColorR.b}, ${store.spinnerPopupColorR.a})`
+                          : `rgba(
+                            ${store.spinnerColorR.r}, ${store.spinnerColorR.g}, 
+                            ${store.spinnerColorR.b}, ${store.spinnerColorR.a})`,
+                        color: `rgba(
+                            ${store.textComponent.r}, ${store.textComponent.g}, 
+                            ${store.textComponent.b}, ${store.textComponent.a})`,
+                      }}>
                       <MenuItem value="">
                         <em>⠀</em>
                       </MenuItem>
@@ -777,14 +705,11 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                 </div>
 
                 <div className="selectResidentandUserBox">
-                  <text
-                    className="selectUserTextStyle"
-                    style={{
-                      color: `rgba(
+                  <text className="selectUserTextStyle"
+                    style={{ color: `rgba(
                         ${store.textBackground.r}, ${store.textBackground.g}, 
                         ${store.textBackground.b}, ${store.textBackground.a})`,
-                    }}
-                  >
+                    }}>
                     Select Residence
                   </text>
                   <FormControl className="formControlStyle">
@@ -792,14 +717,18 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                       value={selectedResidence}
                       onChange={handleSelectChange("residence")}
                       className="selectedStyle selectedResidence"
-                      style={{
-                        fontWeight: "bold",
+                      style={{ fontWeight: "bold",
                         backgroundColor: selectedResidence
-                          ? `rgba(${store.spinnerPopupColorR.r}, ${store.spinnerPopupColorR.g}, ${store.spinnerPopupColorR.b}, ${store.spinnerPopupColorR.a})`
-                          : `rgba(${store.spinnerColorR.r}, ${store.spinnerColorR.g}, ${store.spinnerColorR.b}, ${store.spinnerColorR.a})`,
-                        color: `rgba(${store.textComponent.r}, ${store.textComponent.g}, ${store.textComponent.b}, ${store.textComponent.a})`,
-                      }}
-                    >
+                          ? `rgba(
+                            ${store.spinnerPopupColorR.r}, ${store.spinnerPopupColorR.g}, 
+                            ${store.spinnerPopupColorR.b}, ${store.spinnerPopupColorR.a})`
+                          : `rgba(
+                            ${store.spinnerColorR.r}, ${store.spinnerColorR.g}, 
+                            ${store.spinnerColorR.b}, ${store.spinnerColorR.a})`,
+                        color: `rgba(
+                          ${store.textComponent.r}, ${store.textComponent.g}, 
+                          ${store.textComponent.b}, ${store.textComponent.a})`,
+                      }}>
                       <MenuItem value="">
                         <em>⠀</em>
                       </MenuItem>
@@ -811,36 +740,37 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                 </div>
 
                 <div className="selectResidentandUserBox">
-                  <text
-                    className="selectUserTextStyle"
-                    style={{
-                      color: `rgba(
+                  <text className="selectUserTextStyle"
+                    style={{ color: `rgba(
                         ${store.textBackground.r}, ${store.textBackground.g}, 
                         ${store.textBackground.b}, ${store.textBackground.a})`,
-                    }}
-                  >
+                    }}>
                     Select User
                   </text>
                   <FormControl className="formControlStyle">
-                    <Select
-                      value={selectedUser}
+                    <Select value={selectedUser}
                       onChange={handleSelectChange("user")}
                       className="selectedStyle selectedUser"
                       style={{
                         fontWeight: "bold",
                         borderRadius: "0 0 20px 20px",
                         backgroundColor: selectedUser
-                          ? `rgba(${store.spinnerPopupColorR.r}, ${store.spinnerPopupColorR.g}, ${store.spinnerPopupColorR.b}, ${store.spinnerPopupColorR.a})`
-                          : `rgba(${store.spinnerColorR.r}, ${store.spinnerColorR.g}, ${store.spinnerColorR.b}, ${store.spinnerColorR.a})`,
-                        color: `rgba(${store.textComponent.r}, ${store.textComponent.g}, ${store.textComponent.b}, ${store.textComponent.a})`,
+                          ? `rgba(
+                            ${store.spinnerPopupColorR.r}, ${store.spinnerPopupColorR.g}, 
+                            ${store.spinnerPopupColorR.b}, ${store.spinnerPopupColorR.a})`
+                          : `rgba(
+                            ${store.spinnerColorR.r}, ${store.spinnerColorR.g}, 
+                            ${store.spinnerColorR.b}, ${store.spinnerColorR.a})`,
+                        color: `rgba(
+                          ${store.textComponent.r}, ${store.textComponent.g}, 
+                          ${store.textComponent.b}, ${store.textComponent.a})`,
                       }}
                       renderValue={(selected) => (
                         <div>
                           <div className="popOverBetweenTag">RESIDENT</div>
                           <div>{selected}</div>
                         </div>
-                      )}
-                    >
+                      )}>
                       <MenuItem value="">
                         <em>⠀</em>
                       </MenuItem>
@@ -858,45 +788,33 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                 anchorReference="anchorPosition"
                 anchorPosition={{ top: 200, left: 110 }}
                 onClose={handleClose8}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-              >
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}>
                 <div className="popOverSelectFRU">
                   <div className="popOverMarginStyle">
                     <div className="popOverBetweenTag">
                       <label>Text On Background Color</label>
                     </div>
                     <ColorPickerTab
-                      label=""
                       color={store.textBackground}
-                      onChange={store.setTextBackground}
-                    />
+                      onChange={store.setTextBackground} />
                     <div className="popOverBetweenTag">
                       <label>Spinner Color</label>
                     </div>
                     <ColorPickerTab
-                      label=""
                       color={store.spinnerColorR}
-                      onChange={store.setSpinnerColorR}
-                    />
+                      onChange={store.setSpinnerColorR} />
                     <div className="popOverBetweenTag">
                       <label>Spinner Popup Color</label>
                     </div>
                     <ColorPickerTab
-                      label=""
                       color={store.spinnerPopupColorR}
-                      onChange={store.setSpinnerPopupColorR}
-                    />
+                      onChange={store.setSpinnerPopupColorR} />
                     <div className="popOverBetweenTag">
                       <label>In Component Color</label>
                     </div>
                     <ColorPickerTab
-                      label=""
                       color={store.textComponent}
-                      onChange={store.setTextComponent}
-                    />
+                      onChange={store.setTextComponent} />
                   </div>
                 </div>
               </Popover>
@@ -913,9 +831,15 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                       variant="contained"
                       style={{
                         ...buttonCStyle,
-                        background: `linear-gradient(to bottom, rgba(${store.primaryButtonStart.r}, ${store.primaryButtonStart.g}, ${store.primaryButtonStart.b}, ${store.primaryButtonStart.a}), 
-                        rgba(${store.primaryButtonEnd.r}, ${store.primaryButtonEnd.g}, ${store.primaryButtonEnd.b}, ${store.primaryButtonEnd.a}))`,
-                        color: `rgba(${store.textButton.r}, ${store.textButton.g}, ${store.textButton.b}, ${store.textButton.a})`,
+                        background: `linear-gradient(to bottom, rgba(
+                          ${store.primaryButtonStart.r}, ${store.primaryButtonStart.g}, 
+                          ${store.primaryButtonStart.b}, ${store.primaryButtonStart.a}), 
+                        rgba(
+                          ${store.primaryButtonEnd.r}, ${store.primaryButtonEnd.g}, 
+                          ${store.primaryButtonEnd.b}, ${store.primaryButtonEnd.a}))`,
+                        color: `rgba(
+                          ${store.textButton.r}, ${store.textButton.g}, 
+                          ${store.textButton.b}, ${store.textButton.a})`,
                       }}
                       onClick={(e) =>
                         handleButtonClick(
@@ -929,12 +853,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                             { style: buttonEStyle, setter: setButtonEStyle },
                             { style: buttonFStyle, setter: setButtonFStyle },
                             { style: buttonHStyle, setter: setButtonHStyle },
-                          ],
-                          3,
-                          e
-                        )
-                      }
-                    >
+                          ], 3, e )}>
                       Forget?
                     </Button>
                     <Popover
@@ -947,34 +866,27 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                       anchorOrigin={{
                         vertical: "bottom",
                         horizontal: "left",
-                      }}
-                    >
+                      }}>
                       <div className="popOverChangePasscodeandForgetButton">
                         <div className="popOverMarginStyle">
                           <div className="popOverBetweenTag">
                             <label>Theme Color Start</label>
                           </div>
                           <ColorPickerTab
-                            label=""
                             color={store.primaryButtonStart}
-                            onChange={store.setPrimaryButtonStart}
-                          />
+                            onChange={store.setPrimaryButtonStart} />
                           <div className="popOverBetweenTag">
                             <label>Theme Color End</label>
                           </div>
                           <ColorPickerTab
-                            label=""
                             color={store.primaryButtonEnd}
-                            onChange={store.setPrimaryButtonEnd}
-                          />
+                            onChange={store.setPrimaryButtonEnd} />
                           <div className="popOverBetweenTag">
                             <label>Text Button Color</label>
                           </div>
                           <ColorPickerTab
-                            label=""
                             color={store.textButton}
-                            onChange={store.setTextButton}
-                          />
+                            onChange={store.setTextButton} />
                         </div>
                       </div>
                     </Popover>
@@ -999,18 +911,13 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                           { style: buttonDStyle, setter: setButtonDStyle },
                           { style: buttonEStyle, setter: setButtonEStyle },
                           { style: buttonFStyle, setter: setButtonFStyle },
-                        ],
-                        8,
-                        e
-                      )
-                    }
-                  >
+                        ], 8, e )}>
                     <HomeIcon
                       className="homeIconStyle"
-                      style={{
-                        color: `rgba(${store.textBackground.r}, ${store.textBackground.g}, ${store.textBackground.b}, ${store.textBackground.a})`,
-                      }}
-                    />
+                      style={{ color: `rgba(
+                        ${store.textBackground.r}, ${store.textBackground.g}, 
+                        ${store.textBackground.b}, ${store.textBackground.a})`,
+                      }}/>
                   </Button>
                 </div>
 
@@ -1018,11 +925,16 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                 <div className="changePasscodeButtonBoxStyle">
                   <Button
                     variant="contained"
-                    style={{
-                      ...buttonCStyle,
-                      background: `linear-gradient(to bottom, rgba(${store.secondaryButtonStart.r}, ${store.secondaryButtonStart.g}, ${store.secondaryButtonStart.b}, ${store.secondaryButtonStart.a}), 
-                      rgba(${store.secondaryButtonEnd.r}, ${store.secondaryButtonEnd.g}, ${store.secondaryButtonEnd.b}, ${store.secondaryButtonEnd.a}))`,
-                      color: `rgba(${store.textButton.r}, ${store.textButton.g}, ${store.textButton.b}, ${store.textButton.a})`,
+                    style={{ ...buttonCStyle,
+                      background: `linear-gradient(to bottom, rgba(
+                        ${store.secondaryButtonStart.r}, ${store.secondaryButtonStart.g}, 
+                        ${store.secondaryButtonStart.b}, ${store.secondaryButtonStart.a}), 
+                      rgba(
+                        ${store.secondaryButtonEnd.r}, ${store.secondaryButtonEnd.g}, 
+                        ${store.secondaryButtonEnd.b}, ${store.secondaryButtonEnd.a}))`,
+                      color: `rgba(
+                        ${store.textButton.r}, ${store.textButton.g}, 
+                        ${store.textButton.b}, ${store.textButton.a})`,
                     }}
                     onClick={(e) =>
                       handleButtonClick(
@@ -1036,12 +948,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                           { style: buttonFStyle, setter: setButtonFStyle },
                           { style: buttonGStyle, setter: setButtonGStyle },
                           { style: buttonHStyle, setter: setButtonHStyle },
-                        ],
-                        4,
-                        e
-                      )
-                    }
-                  >
+                        ], 4, e )}>
                     Change passcode
                   </Button>
                   <Popover
@@ -1051,37 +958,27 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                     anchorReference="anchorPosition"
                     anchorPosition={{ top: 340, left: 1260 }}
                     onClose={handleClose4}
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "left",
-                    }}
-                  >
+                    anchorOrigin={{ vertical: "bottom", horizontal: "left" }}>
                     <div className="popOverChangePasscodeandForgetButton">
                       <div className="popOverMarginStyle">
                         <div className="popOverBetweenTag">
                           <label>Theme Color Start</label>
                         </div>
                         <ColorPickerTab
-                          label=""
                           color={store.secondaryButtonStart}
-                          onChange={store.setSecondaryButtonStart}
-                        />
+                          onChange={store.setSecondaryButtonStart} />
                         <div className="popOverBetweenTag">
                           <label>Theme Color End</label>
                         </div>
                         <ColorPickerTab
-                          label=""
                           color={store.secondaryButtonEnd}
-                          onChange={store.setSecondaryButtonEnd}
-                        />
+                          onChange={store.setSecondaryButtonEnd} />
                         <div className="popOverBetweenTag">
                           <label>Text Button Color</label>
                         </div>
                         <ColorPickerTab
-                          label=""
                           color={store.textButton}
-                          onChange={store.setTextButton}
-                        />
+                          onChange={store.setTextButton} />
                       </div>
                     </div>
                   </Popover>

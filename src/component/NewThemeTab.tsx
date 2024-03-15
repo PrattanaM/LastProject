@@ -9,17 +9,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import ColorPicker from './ColorPicker';
 import axios from 'axios';
 import getTokens from '../utils/getTokens';
-import { useColorStore } from '../container/colorStore';
-import { ThemeData } from '../types/types';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 function NewThemeTab() {
-
     const [selectedRectangle, setSelectedRectangle] = useState<number | null>(null);
     const [themes, setThemes] = useState<any[]>([]);
-    const setColorStore = useColorStore((state) => state.setMainBackground);
-    const [themesData, setThemesData] = useState<ThemeData[]>([]);
     const effectRan = useRef(false);
+    const [selectedTheme, setSelectedTheme] = useState<any>(null);
 
     useEffect(() => {
         return () => {
@@ -36,7 +32,6 @@ function NewThemeTab() {
                     Authorization: `Bearer ${token}`,
                 }
             });
-            // console.log(response.data);
             console.log('Themes Data:',);
             setThemes(response.data.data);
         } catch (error) {
@@ -66,7 +61,6 @@ function NewThemeTab() {
         setSelectedTheme(theme);
         setSelectedRectangle(id);
         console.log('Selected theme ' + id);
-        // + ' : ', themes.find(item => item._id === id)
     };
 
     const handleCloseModal = () => {
@@ -83,34 +77,26 @@ function NewThemeTab() {
         setThemes((prevThemes) => [...prevThemes, newTheme]);
         createTheme();
     };
-
-    const [selectedTheme, setSelectedTheme] = useState<any>(null);
-
-    const [open, setOpen] = React.useState(false);
-
+    
     const handleDeleteClick = async (id: number) => {
         const theme = themes.find(item => item._id === id);
         setSelectedTheme(theme);
         setSelectedRectangle(id);
         console.log('Delete Selected theme ' + id);
-        // เปิดแล้วกดลบได้เลย
+        // Uncomment This code it can be use delete
         // try {
         //     const token = await getTokens();
         //     const response = await axios.delete(`https://api-dev2.keyspace.tech/themes/${id}`, {
         //         params: {
         //             type: 'locker-controller',
-        //             // ระบุข้อมูลเพิ่มเติมที่จำเป็นสำหรับการลบธีม (ถ้ามี)
         //         },
         //         headers: {
         //             Authorization: `Bearer ${token}`,
         //         }
-        //         // ส่ง header หรือข้อมูลอื่นๆที่จำเป็น (ถ้ามี)
         //     });
         //     console.log('Theme deleted successfully');
-        //     // ทำอะไรต่อหลังจากลบธีมสำเร็จ เช่น โหลดธีมใหม่
         // } catch (error) {
         //     console.error('Error deleting theme:', error);
-        //     // ทำอะไรต่อหลังจากเกิดข้อผิดพลาดในการลบธีม เช่น แสดงข้อความผิดพลาด
         // }
     };
 
@@ -119,7 +105,6 @@ function NewThemeTab() {
             <Grid item xs={12}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <h1 style={{ marginLeft: '20px' }}>Theme</h1>
-
                     <Button
                         variant="contained"
                         color="primary"
@@ -131,8 +116,7 @@ function NewThemeTab() {
                             backgroundColor: 'transparent',
                             transition: 'box-shadow 0.3s',
                             boxShadow: 'none',
-                        }}
-                    >
+                        }}>
                         <ControlPointIcon style={{ fontSize: '40px', color: 'black' }} />
                     </Button>
                 </div>
@@ -163,7 +147,6 @@ function NewThemeTab() {
                 </Grid>
             ))}
 
-
             <Modal
                 open={selectedRectangle !== null}
                 onClose={handleCloseModal}
@@ -183,9 +166,7 @@ function NewThemeTab() {
                         height: '800px',
                         borderRadius: 3
                     }}>
-
                     <ColorPicker themesData={selectedTheme} />
-
                 </Box>
             </Modal>
         </Grid>
