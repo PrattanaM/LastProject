@@ -48,6 +48,7 @@ export default function KeyNumber(): JSX.Element {
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
+        fontWeight="bold"
       >
         <Box
           display="flex"

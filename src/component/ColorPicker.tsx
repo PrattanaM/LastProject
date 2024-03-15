@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useColorStore } from "../container/colorStore";
 import ColorPickerTab from "../container/ColorPickerTab";
@@ -7,9 +8,8 @@ import KeyNumber from "../container/KeyNumber";
 import "../styles/ColorPickerStyle.css";
 import { ButtonStyle, styleMainBackgroundColorButton, styleBackgroundColorButton, styleForgetButton, styleTHButton, styleENButton, styleDateTextButton, styleFormControlBox, styleHomeIconButton, } from "../styles/ButtonStyle";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { Paper, Button, FormControl, MenuItem, Popover } from "@mui/material";
+import { Paper, Button, FormControl, MenuItem, Popover, Typography } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import axios from "axios";
 import getTokens from '../utils/getTokens';
 import { ColorPickerProps } from "../types/types";
 import { hexToRgb } from "../container/utils";
@@ -149,7 +149,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
   const [anchorE8, setAnchorE8] = useState<HTMLButtonElement | null>(null);
   const [LogoImage, setLogoImage] = useState<string | null>(null);
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
-  const [themes, setThemes] = useState<any[]>([]);
 
   const setButtonStyles = [
     setButtonAStyle, setButtonBStyle, setButtonCStyle, setButtonDStyle,
@@ -350,12 +349,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
               backgroundColor: `rgba(
                 ${store.mainBackground.r}, ${store.mainBackground.g}, 
                 ${store.mainBackground.b}, ${store.mainBackground.a})`,
-            }}
-            onChange={(color) => {
-              console.log("mainBackground:", color);
-              const updatedThemes = [...themes];
-              updatedThemes[0].mainBackground = color;
-              setThemes(updatedThemes);
             }}>
             {/* Date and Time */}
             <div className="timeBox">
@@ -447,9 +440,9 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                 }}>
                 <div className="popOverLogo">
                   <div className="popOverMarginStyle">
-                    <div className="popOverBetweenTag">
-                      <ImageHandler onImageChange={handleLogoImageChange} />
-                    </div>
+                      <div className="popOverBetweenTag">
+                        <ImageHandler onImageChange={handleLogoImageChange} />
+                      </div>
                     <div className="popOverBetweenTag">
                       <label>Main Background Color</label>
                     </div>
@@ -659,23 +652,23 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                       { style: buttonFStyle, setter: setButtonFStyle },
                     ], 8, e)}>
                 <div className="verifyPasscodeBox">
-                  <text className="verifyPasscodeTextStyle"
+                  <Typography className="verifyPasscodeTextStyle"
                     style={{ color: `rgba(
                         ${store.textBackground.r}, ${store.textBackground.g}, 
                         ${store.textBackground.b}, ${store.textBackground.a})`,
                     }}>
                     Verify passcode
-                  </text>
+                  </Typography>
                 </div>
 
                 <div className="selectFloorBox">
-                  <text className="selectFloorTextStyle"
+                  <Typography className="selectFloorTextStyle"
                     style={{ color: `rgba(
                         ${store.textBackground.r}, ${store.textBackground.g}, 
                         ${store.textBackground.b}, ${store.textBackground.a})`,
                     }}>
                     Select Floor
-                  </text>
+                  </Typography>
                   <FormControl className="formControlStyle">
                     <Select value={selectedFloor}
                       onChange={handleSelectChange("floor")}
@@ -705,13 +698,13 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                 </div>
 
                 <div className="selectResidentandUserBox">
-                  <text className="selectUserTextStyle"
+                  <Typography className="selectUserTextStyle"
                     style={{ color: `rgba(
                         ${store.textBackground.r}, ${store.textBackground.g}, 
                         ${store.textBackground.b}, ${store.textBackground.a})`,
                     }}>
                     Select Residence
-                  </text>
+                  </Typography>
                   <FormControl className="formControlStyle">
                     <Select
                       value={selectedResidence}
@@ -740,13 +733,13 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                 </div>
 
                 <div className="selectResidentandUserBox">
-                  <text className="selectUserTextStyle"
+                  <Typography className="selectUserTextStyle"
                     style={{ color: `rgba(
                         ${store.textBackground.r}, ${store.textBackground.g}, 
                         ${store.textBackground.b}, ${store.textBackground.a})`,
                     }}>
                     Select User
-                  </text>
+                  </Typography>
                   <FormControl className="formControlStyle">
                     <Select value={selectedUser}
                       onChange={handleSelectChange("user")}
@@ -976,7 +969,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ themesData }) => {
                         <div className="popOverBetweenTag">
                           <label>Text Button Color</label>
                         </div>
-                        <ColorPickerTab
+                        <ColorPickerTab 
                           color={store.textButton}
                           onChange={store.setTextButton} />
                       </div>

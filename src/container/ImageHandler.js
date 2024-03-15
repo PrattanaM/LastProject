@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const ImageHandler = ({ onImageChange }) => {
-  const [ setImage ] = useState(null);
+  const [image, setImage] = useState(null);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files && event.target.files[0];
@@ -11,7 +11,7 @@ const ImageHandler = ({ onImageChange }) => {
       reader.onload = () => {
         setImage(reader.result);
         onImageChange(reader.result);
-      };
+      };      
       reader.readAsDataURL(selectedFile);
     } else {
       alert("Please select a valid PNG file.");
